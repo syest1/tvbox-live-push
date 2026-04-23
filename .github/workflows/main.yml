@@ -1,0 +1,20 @@
+name: TVbox Live Email
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'  # 每周一 9:00（北京时间）
+  workflow_dispatch:
+
+jobs:
+  email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装依赖
+        run: pip install requests yagmail
+      - name: 执行推送脚本
+        env:
+          YOUR_EMAIL: ${{ secrets.YOUR_EMAIL }}
+          YOUR_PASSWORD: ${{ secrets.YOUR_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: python3 send_tvbox_live_to_163.py
